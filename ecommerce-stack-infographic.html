@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Commerce Stack: Today vs. Agentic Future</title>
+<meta name="description" content="Interactive infographic mapping the e-commerce technology stack — ERP, PIM, OMS, CMS, Commerce Engine, Promotions, CRM, Payments, Search — and how each component evolves in the agentic commerce era with UCP, ACP, MCP protocols.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --border: #e2e8f0;
+    --card-bg: #ffffff;
+    --bg-subtle: #f1f5f9;
+    --bg-page: #f8fafc;
+  }
+  body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+  .fade-in { animation: fadeIn 0.3s ease; }
+  .pulse { animation: pulse 3s ease-in-out infinite; }
+
+  /* Toggle */
+  .toggle-wrap { display: inline-flex; background: #e2e8f0; border-radius: 12px; padding: 3px; gap: 2px; }
+  .toggle-btn {
+    padding: 10px 24px; border-radius: 10px; border: none; cursor: pointer;
+    background: transparent; font-family: inherit; font-size: 14px; color: #64748b;
+    transition: all 0.2s ease; display: flex; flex-direction: column; align-items: center; gap: 1px;
+  }
+  .toggle-btn.active { background: #fff; font-weight: 600; color: #0f172a; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .toggle-btn .sub { font-size: 10px; color: #94a3b8; }
+  .toggle-btn.active .sub { color: #6366f1; }
+
+  /* Cards */
+  .card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+    padding: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; overflow: hidden;
+  }
+  .card.expanded { padding: 24px; }
+  .card .top-bar {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px; display: none;
+  }
+  .card.expanded .top-bar { display: block; }
+
+  .card-header { display: flex; align-items: center; gap: 12px; }
+  .card.expanded .card-header { margin-bottom: 16px; }
+  .icon-box {
+    width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center;
+    justify-content: center; font-size: 22px; flex-shrink: 0;
+  }
+  .card-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .card-label { font-weight: 700; font-size: 15px; letter-spacing: 0.5px; }
+  .card-fullname { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+  .card-subtitle { font-size: 12px; color: var(--text-secondary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chevron {
+    width: 28px; height: 28px; border-radius: 8px; background: var(--bg-subtle);
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+    color: var(--text-muted); transition: transform 0.3s ease; flex-shrink: 0;
+  }
+  .card.expanded .chevron { transform: rotate(180deg); }
+
+  .rank-num {
+    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px;
+  }
+  .verdict-badge {
+    font-size: 9px; font-weight: 800; letter-spacing: 1.2px;
+    padding: 2px 8px; border-radius: 6px;
+  }
+
+  .card-body { font-size: 13.5px; line-height: 1.65; color: var(--text-primary); margin-bottom: 16px; }
+  .section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; }
+  .pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; display: inline-block; margin: 0 4px 4px 0; }
+  .pain-box { background: #fef3c7; border-radius: 10px; padding: 10px 14px; border: 1px solid #fcd34d40; }
+  .pain-label { color: #92400e; }
+  .pain-text { font-size: 12.5px; line-height: 1.55; color: #78350f; }
+  .shift-box { border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
+  .protocol-box {
+    background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 10px;
+    padding: 12px 14px; border: 1px solid #334155;
+  }
+  .protocol-label { color: #67e8f9; }
+  .protocol-text { font-size: 12.5px; line-height: 1.55; color: #e2e8f0; }
+
+  .verdict-card { border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+  .verdict-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+
+  /* Ranking summary */
+  .ranking-col { flex: 1; min-width: 200px; }
+  .ranking-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding: 8px 12px; border-radius: 10px; }
+
+  /* Architecture diagram */
+  .arch-layer {
+    display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; width: 100%;
+    padding: 12px 16px; border-radius: 14px;
+  }
+  .arch-layer-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; width: 100%; text-align: center; margin-bottom: 4px; }
+  .arch-chip { padding: 8px 16px; border-radius: 10px; display: flex; align-items: center; gap: 6px; }
+  .arch-chip span:last-child { font-size: 12px; font-weight: 600; }
+  .arch-arrow { display: flex; gap: 6px; align-items: center; color: #94a3b8; justify-content: center; padding: 4px 0; }
+
+  /* Stat card */
+  .stat-val { font-size: 26px; font-weight: 700; }
+  .stat-label { font-size: 11px; color: #a5b4fc; margin-top: 2px; }
+
+  /* Layout helpers */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  .text-center { text-align: center; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-12 { margin-bottom: 12px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+  .mb-32 { margin-bottom: 32px; }
+  .hidden { display: none; }
+
+  .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .flex-wrap { display: flex; flex-wrap: wrap; gap: 16px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script>
+const e = React.createElement;
+const { useState } = React;
+
+const COMPONENTS = [
+  {
+    id: "erp", label: "ERP", fullName: "Enterprise Resource Planning", icon: "⚙️", color: "#2563eb",
+    today: {
+      role: "Backbone of operations — manages finance, inventory, supply chain, manufacturing, and procurement. Owns transactional data like pricing, stock levels, and cost.",
+      players: "SAP, Oracle, Microsoft Dynamics, Acumatica, NetSuite",
+      pain: "Rigid, slow to adapt. Data trapped in silos. Manual data entry between systems. Batch-oriented, not real-time.",
+    },
+    future: {
+      role: "Autonomous operational brain. AI agents read/write ERP data via MCP in real-time. Predictive demand planning, auto-replenishment, and dynamic cost optimization happen continuously.",
+      shift: "From passive record-keeper to active participant. Agents negotiate with suppliers, adjust inventory allocations, and trigger procurement autonomously based on live demand signals.",
+      protocol: "MCP servers expose ERP data to AI agents. UCP transactions feed back order data instantly. A2A enables multi-agent coordination across supply chain partners.",
+      rank: 4, verdict: "stable", verdictLabel: "Steady — Still Essential",
+      verdictNote: "ERP remains the operational backbone, but becomes a background data service. Agents consume ERP data via MCP, but ERP itself doesn't gain strategic leverage — it's table stakes, not a differentiator. Risk: commoditized into a dumb data pipe if vendors don't build native agent interfaces.",
+    },
+  },
+  {
+    id: "pim", label: "PIM", fullName: "Product Information Management", icon: "📦", color: "#7c3aed",
+    today: {
+      role: "Central hub for product data — pulls raw data from ERP/PLM, enriches with marketing content, SEO, digital assets, and syndicates to channels. Single source of truth for product information.",
+      players: "Akeneo, Salsify, Pimcore, Syndigo, inriver, Contentserv",
+      pain: "Manual enrichment workflows. Slow time-to-market. Inconsistent data across channels. Quality gates require human review.",
+    },
+    future: {
+      role: "AI-native product knowledge graph. Agents auto-enrich product data with semantic attributes, generate multilingual descriptions, and maintain completeness scores autonomously.",
+      shift: "From manual enrichment pipeline to self-healing, agent-enriched knowledge base. PIM becomes the semantic layer that AI shopping agents query to understand products deeply.",
+      protocol: "MCP servers let agents query and enrich product data directly. Akeneo and Salsify already ship MCP servers and ACP connectors. Structured, semantic data becomes the competitive moat for AI discoverability.",
+      rank: 1, verdict: "winner", verdictLabel: "\u{1F3C6} Biggest Winner",
+      verdictNote: "PIM becomes THE strategic asset. If AI agents can't understand your products, they won't recommend or sell them. Structured, semantic, agent-readable product data is the #1 competitive moat. PIM vendors like Akeneo and Salsify are already shipping MCP servers — they're first movers. Every other component depends on PIM data quality.",
+    },
+  },
+  {
+    id: "oms", label: "OMS", fullName: "Order Management System", icon: "📋", color: "#059669",
+    today: {
+      role: "Manages the full order lifecycle — routing, tracking, fulfillment, returns. Orchestrates inventory across warehouses, channels, and fulfillment partners.",
+      players: "Fluent Commerce, Manhattan Associates, Brightpearl, Shopify OMS",
+      pain: "Complex routing rules maintained manually. Returns processing is labor-intensive. Limited real-time visibility across fulfillment network.",
+    },
+    future: {
+      role: "Autonomous fulfillment orchestrator. AI agents optimize routing in real-time based on cost, speed, carbon footprint, and customer preference. Returns handled by agents end-to-end.",
+      shift: "From rule-based order routing to predictive, self-optimizing fulfillment. Agents negotiate delivery options, manage exceptions, and proactively communicate with customers.",
+      protocol: "UCP defines standardized order and fulfillment data for agent transactions. MCP exposes order status for agent queries. AP2 handles payment settlement. Delivery APIs become agent-readable.",
+      rank: 2, verdict: "winner", verdictLabel: "Rising Winner",
+      verdictNote: "OMS gains massive strategic importance as the commerce engine unbundles. When agents compare two identical products, the merchant with faster, cheaper, more transparent fulfillment wins. Delivery becomes the tiebreaker in every agent decision. OMS absorbs order orchestration that previously sat in the commerce engine — routing, tracking, returns, and delivery promise — and becomes a direct protocol endpoint for AI agents. Agent-readable delivery APIs aren't a nice-to-have; they're the deal-breaker.",
+    },
+  },
+  {
+    id: "cms", label: "CMS", fullName: "Content Management System", icon: "📝", color: "#dc2626",
+    today: {
+      role: "Powers content and landing pages, editorial experiences, and brand storytelling. Headless CMS decouples content from presentation for omnichannel delivery.",
+      players: "Contentful, Sanity, Storyblok, Strapi, Adobe Experience Manager",
+      pain: "Content creation bottlenecks. Personalization requires complex rule sets. Content must be manually adapted for each channel and locale.",
+    },
+    future: {
+      role: "Generative content engine. AI agents create, personalize, and optimize content in real-time for every surface — human browsers, AI shopping agents, and conversational interfaces alike.",
+      shift: "From static page builder to dynamic experience orchestrator. Content is generated on-the-fly based on agent intent, user context, and real-time signals. Human editors become curators and approvers.",
+      protocol: "Content must be structured for both human and agent consumption. GEO (Generative Engine Optimization) replaces SEO as the primary discoverability paradigm. Schema.org becomes critical.",
+      rank: 8, verdict: "loser", verdictLabel: "⚠ Most Disrupted",
+      verdictNote: "CMS faces existential pressure. Shopify's Agentic Storefronts prove the point: AI surfaces favor structured catalog data with clean attributes and real-time accuracy — not editorial pages or visual layouts. When products are discovered and purchased inside ChatGPT without ever visiting a website, the traditional CMS value prop (page building, visual editing) becomes irrelevant for a growing share of commerce. Survivors must pivot to structured content APIs and agent-readable formats.",
+    },
+  },
+  {
+    id: "commerce", label: "Commerce Engine", fullName: "Commerce Platform / Storefront", icon: "🛒", color: "#ea580c",
+    today: {
+      role: "Core transaction engine — catalog, cart, checkout, pricing logic. Headless/composable architectures decouple frontend from backend. Manages the buying experience.",
+      players: "Shopify Plus, commercetools, BigCommerce, Adobe Commerce, Salesforce Commerce Cloud",
+      pain: "Built for human browsers, not AI agents. Checkout flows assume visual interaction. Integration complexity across the stack. Replatforming is expensive.",
+    },
+    future: {
+      role: "The hardest question in the agentic stack. Traditionally the core of e-commerce — catalog, cart, checkout, pricing — but agents are unbundling every one of these functions. Catalog \u2192 PIM via MCP. Orders \u2192 OMS directly. Payments \u2192 AP2/ACP with providers. Pricing \u2192 Promotions engine via API. What's left?",
+      shift: "The commerce engine's monopoly on the buying journey is breaking apart. Smart players like Shopify see this — their 'Agentic Storefronts' and 'Agentic Plan' are really a pivot into becoming a PIM + OMS + payment orchestrator bundled as protocol infrastructure. They're not defending the storefront — they're escaping it. The question: do you need a commerce 'platform' at all, or just a thin orchestration layer over PIM, OMS, and Payments?",
+      protocol: "UCP and ACP define cart and checkout as open protocols — any system can implement them. Shopify Catalog is essentially structured PIM syndication. The commerce engine's survival depends on being the trusted transaction orchestrator and merchant-of-record — but that's a much thinner, lower-margin role than today's full platform.",
+      rank: 7, verdict: "loser", verdictLabel: "⚠ Under Attack — Unbundled",
+      verdictNote: "Controversial call, but the logic is clear: every core function of the commerce engine is being absorbed by specialist components + open protocols. PIM owns the catalog. OMS owns fulfillment. Payments own settlement. Promotions own pricing. UCP/ACP define cart and checkout as protocol standards. Shopify's pivot to 'Agentic Storefronts' and 'Catalog' is revealing — they're not defending the commerce engine, they're escaping into protocol infrastructure and data syndication. The traditional commerce platform risks becoming a thin, commoditized orchestration layer. Survivors must own the trust layer (merchant of record, fraud, tax, compliance) or get unbundled.",
+    },
+  },
+  {
+    id: "promo", label: "Promotions", fullName: "Promotions & Pricing Engine", icon: "🏷️", color: "#0891b2",
+    today: {
+      role: "Manages discounts, coupons, loyalty rewards, bundle pricing, and campaign-driven offers. Rules-based engines determine which promotions apply at checkout.",
+      players: "Talon.One, Voucherify, commercetools Promotions, custom engines",
+      pain: "Static rule sets. Promotions don't adapt to real-time demand. Difficult to extend to AI channels. Loyalty programs siloed from agent interactions.",
+    },
+    future: {
+      role: "Dynamic, agent-negotiated pricing. AI agents query available promotions, apply loyalty rewards, and even negotiate AI-mode-exclusive discounts on behalf of consumers.",
+      shift: "From static coupon codes to real-time, context-aware pricing. Agents continuously optimize pricing based on competitor data, demand signals, and margin targets. Promotions become API-first.",
+      protocol: "UCP already supports AI-mode exclusive discounts. Pricing microservices expose rules via MCP so agents can query and apply promotions accurately. Real-time margin protection becomes critical.",
+      rank: 5, verdict: "stable", verdictLabel: "Evolves — Higher Stakes",
+      verdictNote: "Promotions don't disappear but the game changes dramatically. Agents will ruthlessly optimize for best price, making promotion logic a margin battleground. Static coupon codes become obsolete — real-time, agent-queryable pricing APIs are the new requirement. Winners build smart margin-protection logic; losers get price-arbitraged into oblivion.",
+    },
+  },
+  {
+    id: "crm", label: "CRM / CDP", fullName: "Customer Data & Relationships", icon: "👤", color: "#be185d",
+    today: {
+      role: "Manages customer profiles, purchase history, segmentation, and marketing engagement. CDPs unify first-party data across touchpoints for personalization.",
+      players: "Salesforce, HubSpot, Segment, Klaviyo, mParticle",
+      pain: "Data fragmented across systems. Personalization is reactive, not predictive. Privacy regulations add complexity. Limited ability to act on insights in real-time.",
+    },
+    future: {
+      role: "Predictive relationship intelligence. AI agents use customer context to personalize every interaction — but via zero-knowledge protocols that protect PII while enabling deep personalization.",
+      shift: "From storing customer data to understanding customer intent. Agents forecast needs before customers recognize them. The CRM becomes the 'preference memory' that agents consult to act on behalf of users.",
+      protocol: "Zero-Knowledge Agentic Interfaces (ZTAI) let agents personalize without exposing raw PII. UCP Identity Linking connects agent sessions to customer profiles securely. First-party data becomes the moat.",
+      rank: 6, verdict: "loser", verdictLabel: "⚠ Under Threat",
+      verdictNote: "Traditional CRM loses ground because AI agents themselves become the relationship layer. When a consumer's agent remembers preferences, negotiates on their behalf, and manages interactions — what's left for CRM? First-party data remains valuable, but the CRM's role shrinks to a preference API that agents query. The 'relationship' moves from brand-owned to agent-mediated.",
+    },
+  },
+  {
+    id: "payments", label: "Payments", fullName: "Payment Processing & Settlement", icon: "💳", color: "#4f46e5",
+    today: {
+      role: "Secure processing, authorization, and settlement of transactions. Manages multiple payment methods, fraud detection, and PCI compliance.",
+      players: "Stripe, Adyen, PayPal, Shopify Payments, Checkout.com",
+      pain: "Designed for human-initiated transactions. Fraud models assume human behavior patterns. Limited support for agent-initiated purchases.",
+    },
+    future: {
+      role: "Agent-native payment infrastructure. Tokenized, consent-based transactions where AI agents execute purchases using pre-authorized credentials — no card numbers exposed.",
+      shift: "From checkout forms to protocol-based settlement. Visa's Trusted Agent Protocol (TAP) verifies legitimate AI agents. Google's AP2 and Stripe's ACP handle agent payment flows natively.",
+      protocol: "AP2 handles secure agent payment authorization. ACP (Stripe + OpenAI) manages checkout transactions. Visa TAP verifies agent legitimacy. Zero-trust architecture protects every transaction.",
+      rank: 3, verdict: "winner", verdictLabel: "Critical Enabler",
+      verdictNote: "Payments becomes the trust layer for the entire agentic ecosystem — and absorbs the checkout function that previously lived in the commerce engine. No agent commerce works without secure, tokenized payment protocols. Stripe (ACP), Visa (TAP), Google (AP2) are racing to own this layer. As the commerce engine unbundles, payment providers that nail agent-native flows become the de facto checkout infrastructure — those stuck on checkout forms get bypassed.",
+    },
+  },
+  {
+    id: "search", label: "Search & Discovery", fullName: "Product Search & Recommendations", icon: "🔍", color: "#ca8a04",
+    today: {
+      role: "Powers product search, filtering, faceted navigation, and recommendation engines. Personalization based on behavior and purchase history.",
+      players: "Algolia, Bloomreach, Coveo, Nosto, Constructor.io",
+      pain: "Keyword-dependent. Recommendations based on historical patterns. Doesn't understand natural language intent. Limited cross-system context.",
+    },
+    future: {
+      role: "Semantic understanding engine. AI agents don't search — they reason. Product discovery becomes conversational, intent-driven, and context-aware across the entire shopping journey.",
+      shift: "From keyword matching to semantic reasoning. GEO (Generative Engine Optimization) replaces traditional SEO. Vector embeddings and RAG enable agents to understand products at a conceptual level.",
+      protocol: "MCP provides structured product data to agent reasoning. Shopify's Catalog API supports semantic search with vector embeddings. Answer Engine Optimization (AEO) becomes the new discoverability game.",
+      rank: 9, verdict: "loser", verdictLabel: "⚠ Most at Risk",
+      verdictNote: "Traditional search & discovery faces the biggest existential threat. Shopify's Agentic Storefronts make products discoverable in ChatGPT by default — no search engine, no app, no integration needed. AI agents don't use search bars, faceted filters, or recommendation widgets — they reason over structured catalog data via protocols. The entire search vendor category must pivot to semantic/vector infrastructure and GEO tooling, or become obsolete as the 'search box' disappears from the buying journey.",
+    },
+  },
+];
+
+const PROTOCOLS = [
+  { name: "UCP", full: "Universal Commerce Protocol", by: "Google + Shopify", desc: "Full shopping journey — discovery, cart, checkout, fulfillment. The 'common language' for agent-to-merchant transactions." },
+  { name: "ACP", full: "Agentic Commerce Protocol", by: "OpenAI + Stripe", desc: "Checkout and payment execution within AI interfaces. Live in ChatGPT today." },
+  { name: "MCP", full: "Model Context Protocol", by: "Anthropic", desc: "Universal data plumbing — agents access tools, databases, and APIs. 97M+ SDK downloads, 10K+ servers." },
+  { name: "AP2", full: "Agent Payments Protocol", by: "Google", desc: "Secure payment authorization for agent transactions. Integrates Visa, Mastercard, PayPal." },
+  { name: "A2A", full: "Agent-to-Agent Protocol", by: "Google", desc: "Multi-agent coordination. Enables agents from different systems to collaborate on complex tasks." },
+  { name: "TAP", full: "Trusted Agent Protocol", by: "Visa", desc: "Verifies legitimate AI agents to prevent fraud in autonomous transactions." },
+];
+
+const VS = {
+  winner: { bg: "linear-gradient(135deg, #065f46, #064e3b)", border: "#10b981", text: "#6ee7b7", icon: "\u25B2", bar: "#10b981" },
+  stable: { bg: "linear-gradient(135deg, #1e3a5f, #1e293b)", border: "#3b82f6", text: "#93c5fd", icon: "\u25A0", bar: "#3b82f6" },
+  loser:  { bg: "linear-gradient(135deg, #7f1d1d, #450a0a)", border: "#ef4444", text: "#fca5a5", icon: "\u25BC", bar: "#ef4444" },
+};
+const VB = {
+  winner: { bg: "#065f46", border: "#10b981", text: "#6ee7b7", label: "WINNER" },
+  stable: { bg: "#1e3a5f", border: "#3b82f6", text: "#93c5fd", label: "STEADY" },
+  loser:  { bg: "#7f1d1d", border: "#ef4444", text: "#fca5a5", label: "AT RISK" },
+};
+
+function ComponentCard({ comp, expanded, onToggle, view }) {
+  const isExp = expanded === comp.id;
+  const data = view === "today" ? comp.today : comp.future;
+  const isFuture = view === "future";
+  const badge = isFuture ? VB[data.verdict] : null;
+  const vs = isFuture ? VS[data.verdict] : null;
+
+  return e("div", {
+    className: "card" + (isExp ? " expanded" : ""),
+    onClick: onToggle,
+    style: isExp ? { background: "linear-gradient(135deg, " + comp.color + "12, " + comp.color + "06)", borderColor: comp.color + "60" } : {}
+  },
+    e("div", { className: "top-bar", style: { background: "linear-gradient(90deg, " + comp.color + ", " + comp.color + "80)" } }),
+    e("div", { className: "card-header" },
+      isFuture && e("div", { className: "rank-num mono", style: { background: vs.bar + "20", border: "1.5px solid " + vs.bar + "60", color: vs.bar } }, data.rank),
+      e("div", { className: "icon-box", style: { background: comp.color + "18" } }, comp.icon),
+      e("div", { style: { flex: 1, minWidth: 0 } },
+        e("div", { className: "card-title-row" },
+          e("span", { className: "card-label mono", style: { color: comp.color } }, comp.label),
+          e("span", { className: "card-fullname" }, comp.fullName),
+          isFuture && badge && e("span", { className: "verdict-badge mono", style: { background: badge.bg, color: badge.text, border: "1px solid " + badge.border + "40" } }, badge.label)
+        ),
+        !isExp && e("div", { className: "card-subtitle" }, isFuture ? data.verdictLabel : data.role.slice(0, 80) + "\u2026")
+      ),
+      e("div", { className: "chevron" }, "\u25BE")
+    ),
+    isExp && e("div", { className: "fade-in" },
+      e("div", { className: "card-body" }, data.role),
+      view === "today" ? e(React.Fragment, null,
+        e("div", { className: "mb-12" },
+          e("div", { className: "section-label", style: { color: "var(--text-muted)" } }, "Key Players"),
+          e("div", { style: { display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "6px" } },
+            data.players.split(", ").map(function(p, i) {
+              return e("span", { key: i, className: "pill", style: { background: comp.color + "12", color: comp.color } }, p);
+            })
+          )
+        ),
+        e("div", { className: "pain-box" },
+          e("div", { className: "section-label pain-label" }, "⚠ Current Pain Points"),
+          e("div", { className: "pain-text" }, data.pain)
+        )
+      ) : e(React.Fragment, null,
+        e("div", { className: "verdict-card", style: { background: vs.bg, border: "1px solid " + vs.border + "40" } },
+          e("div", { className: "verdict-header" },
+            e("span", { style: { fontSize: "16px", color: vs.text } }, vs.icon),
+            e("span", { className: "mono", style: { fontSize: "12px", fontWeight: 700, color: vs.text, letterSpacing: "0.5px" } }, "#" + data.rank + " — " + data.verdictLabel)
+          ),
+          e("div", { style: { fontSize: "12.5px", lineHeight: 1.6, color: vs.text + "dd" } }, data.verdictNote)
+        ),
+        e("div", { className: "shift-box", style: { background: comp.color + "08", border: "1px solid " + comp.color + "20" } },
+          e("div", { className: "section-label", style: { color: comp.color } }, "\u{1F504} The Shift"),
+          e("div", { style: { fontSize: "12.5px", lineHeight: 1.55, color: "var(--text-primary)" } }, data.shift)
+        ),
+        e("div", { className: "protocol-box" },
+          e("div", { className: "section-label protocol-label" }, "\u{1F517} Protocol Layer"),
+          e("div", { className: "protocol-text" }, data.protocol)
+        )
+      )
+    )
+  );
+}
+
+function App() {
+  var _s = useState("today"), view = _s[0], setView = _s[1];
+  var _e = useState(null), expanded = _e[0], setExpanded = _e[1];
+  var _p = useState(false), showProto = _p[0], setShowProto = _p[1];
+
+  var sorted = view === "future" ? COMPONENTS.slice().sort(function(a,b){ return a.future.rank - b.future.rank; }) : COMPONENTS;
+
+  function switchView(v) { setView(v); setExpanded(null); }
+
+  return e("div", null,
+    // Header
+    e("div", { className: "container", style: { paddingTop: "32px" } },
+      e("div", { className: "text-center mb-32" },
+        e("div", { className: "mono", style: { fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "3px", color: "#6366f1", marginBottom: "8px" } }, "The E-Commerce Technology Stack"),
+        e("h1", { style: { fontSize: "32px", fontWeight: 700, lineHeight: 1.2, marginBottom: "8px" } }, view === "today" ? "Today's Architecture" : "The Agentic Future"),
+        e("p", { style: { fontSize: "14px", color: "var(--text-secondary)", maxWidth: "600px", margin: "0 auto", lineHeight: 1.6 } },
+          view === "today"
+            ? "The modern composable commerce stack — modular, API-first, but still built for human-driven workflows and screen-based interactions."
+            : "AI agents become the primary interface. Open protocols (UCP, ACP, MCP) replace screen-based browsing. Every component evolves from passive tool to autonomous participant."
+        )
+      ),
+      // Toggle
+      e("div", { className: "text-center mb-24", style: { display: "flex", justifyContent: "center" } },
+        e("div", { className: "toggle-wrap" },
+          e("button", { className: "toggle-btn" + (view === "today" ? " active" : ""), onClick: function(){ switchView("today"); } }, "\u{1F3D7}\uFE0F  Today", e("span", { className: "sub" }, "2024\u20132025")),
+          e("button", { className: "toggle-btn" + (view === "future" ? " active" : ""), onClick: function(){ switchView("future"); } }, "\u{1F916}  Agentic Future", e("span", { className: "sub" }, "2026+"))
+        )
+      )
+    ),
+
+    // Architecture Diagram
+    e("div", { className: "container mb-24" },
+      e("div", { style: {
+        background: view === "today" ? "linear-gradient(160deg, #f8fafc 0%, #eef2ff 100%)" : "linear-gradient(160deg, #0f172a 0%, #1e1b4b 100%)",
+        borderRadius: "20px", padding: "28px 24px", border: "1px solid " + (view === "today" ? "#e2e8f0" : "#312e81"), position: "relative", overflow: "hidden"
+      } },
+        view === "future" && e("div", { style: { position: "absolute", inset: 0, opacity: 0.05, backgroundImage: "radial-gradient(circle at 2px 2px, #818cf8 1px, transparent 0)", backgroundSize: "32px 32px" } }),
+        e("div", { style: { position: "relative", zIndex: 1 } },
+          e("div", { className: "text-center", style: { fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "2px", color: view === "today" ? "#6366f1" : "#a5b4fc", marginBottom: "4px" } },
+            view === "today" ? "Integration Architecture" : "Agentic Architecture"
+          ),
+          e("div", { className: "text-center", style: { fontSize: "12px", color: view === "today" ? "#64748b" : "#94a3b8", marginBottom: "20px" } },
+            view === "today" ? "API-first, composable, but human-orchestrated" : "Protocol-native, agent-orchestrated, autonomous"
+          ),
+          view === "today" ? e("div", { style: { display: "flex", flexDirection: "column", gap: "12px", alignItems: "center" } },
+            // Customer layer
+            e("div", { className: "arch-layer", style: { background: "#ffffff40", border: "1px dashed #cbd5e1" } },
+              e("div", { className: "arch-layer-label", style: { color: "#64748b" } }, "\u{1F464} Customer-Facing Layer"),
+              ["cms","commerce","search"].map(function(id){ var c = COMPONENTS.find(function(x){return x.id===id;}); return e("div", { key: id, className: "arch-chip", style: { background: c.color+"15", border: "1px solid "+c.color+"30" } }, e("span",{style:{fontSize:"16px"}},c.icon), e("span",{className:"mono",style:{color:c.color}},c.label)); })
+            ),
+            e("div", { className: "arch-arrow" }, e("span",{style:{fontSize:"18px"}},"\u2195"), e("span",{style:{fontSize:"10px",fontWeight:500}},"REST / GraphQL APIs"), e("span",{style:{fontSize:"18px"}},"\u2195")),
+            // Logic layer
+            e("div", { className: "arch-layer", style: { background: "#ffffff40", border: "1px dashed #cbd5e1" } },
+              e("div", { className: "arch-layer-label", style: { color: "#64748b" } }, "\u{1F4A1} Commerce Logic Layer"),
+              ["promo","crm","payments"].map(function(id){ var c = COMPONENTS.find(function(x){return x.id===id;}); return e("div", { key: id, className: "arch-chip", style: { background: c.color+"15", border: "1px solid "+c.color+"30" } }, e("span",{style:{fontSize:"16px"}},c.icon), e("span",{className:"mono",style:{color:c.color}},c.label)); })
+            ),
+            e("div", { className: "arch-arrow" }, e("span",{style:{fontSize:"18px"}},"\u2195"), e("span",{style:{fontSize:"10px",fontWeight:500}},"Batch sync / webhooks"), e("span",{style:{fontSize:"18px"}},"\u2195")),
+            // Data layer
+            e("div", { className: "arch-layer", style: { background: "#ffffff40", border: "1px dashed #cbd5e1" } },
+              e("div", { className: "arch-layer-label", style: { color: "#64748b" } }, "\u{1F5C4}\uFE0F Data & Operations Layer"),
+              ["pim","erp","oms"].map(function(id){ var c = COMPONENTS.find(function(x){return x.id===id;}); return e("div", { key: id, className: "arch-chip", style: { background: c.color+"15", border: "1px solid "+c.color+"30" } }, e("span",{style:{fontSize:"16px"}},c.icon), e("span",{className:"mono",style:{color:c.color}},c.label)); })
+            )
+          ) : e("div", { style: { display: "flex", flexDirection: "column", gap: "12px", alignItems: "center" } },
+            // Agent layer
+            e("div", { style: { padding: "14px 20px", borderRadius: "14px", background: "linear-gradient(135deg, #6366f1, #8b5cf6)", border: "1px solid #818cf8", textAlign: "center", width: "100%" } },
+              e("div", { style: { fontSize: "10px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "2px", color: "#c7d2fe", marginBottom: "4px" } }, "\u{1F916} AI Agent Layer"),
+              e("div", { style: { fontSize: "13px", color: "#e0e7ff" } }, "Consumer agents \u2022 Brand agents \u2022 Service agents \u2022 Supplier agents")
+            ),
+            // Protocol bus
+            e("div", { className: "pulse", style: { width: "100%", padding: "10px 16px", borderRadius: "12px", background: "linear-gradient(90deg, #06b6d4, #6366f1, #8b5cf6, #ec4899)", display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" } },
+              ["UCP","ACP","MCP","AP2","A2A"].map(function(p){ return e("span", { key: p, className: "mono", style: { fontSize: "11px", fontWeight: 700, color: "#fff", letterSpacing: "1px" } }, p); })
+            ),
+            // Components mesh
+            e("div", { style: { display: "flex", justifyContent: "center", gap: "8px", flexWrap: "wrap", width: "100%", padding: "16px", background: "#ffffff08", borderRadius: "14px", border: "1px solid #334155" } },
+              e("div", { style: { fontSize: "10px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1.5px", color: "#67e8f9", width: "100%", textAlign: "center", marginBottom: "8px" } }, "Every Component Exposes MCP Servers"),
+              COMPONENTS.map(function(c){ return e("div", { key: c.id, style: { padding: "8px 14px", borderRadius: "10px", background: c.color+"20", border: "1px solid "+c.color+"50", display: "flex", alignItems: "center", gap: "6px" } }, e("span",{style:{fontSize:"14px"}},c.icon), e("span",{className:"mono",style:{fontSize:"11px",fontWeight:600,color:c.color}},c.label)); })
+            ),
+            e("div", { style: { fontSize: "11px", color: "#94a3b8", textAlign: "center", fontStyle: "italic", lineHeight: 1.5 } }, "No more layered hierarchy — agents orchestrate all components simultaneously via protocols")
+          )
+        )
+      )
+    ),
+
+    // Protocol Reference
+    view === "future" && e("div", { className: "container mb-24" },
+      e("button", { onClick: function(){ setShowProto(!showProto); }, style: { width: "100%", padding: "14px 20px", borderRadius: "14px", border: "1px solid #312e81", background: "linear-gradient(135deg, #1e1b4b, #0f172a)", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: "inherit" } },
+        e("span", { style: { fontSize: "13px", fontWeight: 600, color: "#a5b4fc" } }, "\u{1F517} Protocol Reference — UCP, ACP, MCP, AP2, A2A, TAP"),
+        e("span", { style: { color: "#6366f1", transform: showProto ? "rotate(180deg)" : "none", transition: "0.3s", display: "inline-block" } }, "\u25BE")
+      ),
+      showProto && e("div", { className: "fade-in", style: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "10px", marginTop: "10px" } },
+        PROTOCOLS.map(function(p){ return e("div", { key: p.name, style: { background: "#0f172a", border: "1px solid #1e293b", borderRadius: "12px", padding: "14px 16px" } },
+          e("div", { style: { display: "flex", alignItems: "baseline", gap: "8px", marginBottom: "6px" } },
+            e("span", { className: "mono", style: { fontWeight: 700, fontSize: "14px", color: "#67e8f9" } }, p.name),
+            e("span", { style: { fontSize: "10px", color: "#64748b" } }, p.by)
+          ),
+          e("div", { style: { fontSize: "10px", color: "#94a3b8", marginBottom: "6px", fontWeight: 500 } }, p.full),
+          e("div", { style: { fontSize: "11.5px", color: "#cbd5e1", lineHeight: 1.55 } }, p.desc)
+        ); })
+      )
+    ),
+
+    // Winners & Losers Summary
+    view === "future" && e("div", { className: "container mb-24" },
+      e("div", { style: { background: "#fff", borderRadius: "20px", padding: "24px", border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" } },
+        e("div", { className: "text-center mono", style: { fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "2px", color: "#6366f1", marginBottom: "16px" } }, "Agentic Importance Ranking — Winners & Losers"),
+        e("div", { className: "flex-wrap" },
+          // Winners
+          e("div", { className: "ranking-col" },
+            e("div", { style: { fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "1.5px", color: "#059669", marginBottom: "10px", display: "flex", alignItems: "center", gap: "6px" } }, e("span",{style:{fontSize:"14px"}},"\u25B2"), " Winners — Gain Strategic Power"),
+            COMPONENTS.filter(function(c){return c.future.verdict==="winner";}).sort(function(a,b){return a.future.rank-b.future.rank;}).map(function(c){ return e("div", { key: c.id, className: "ranking-item", style: { background: "#f0fdf4", border: "1px solid #bbf7d0" } },
+              e("span", { className: "mono", style: { fontWeight: 700, fontSize: "16px", color: "#059669", width: "24px" } }, "#"+c.future.rank),
+              e("span", { style: { fontSize: "16px" } }, c.icon),
+              e("div", null, e("span", { className: "mono", style: { fontWeight: 700, fontSize: "13px", color: "#065f46" } }, c.label), e("span", { style: { fontSize: "11px", color: "#047857", marginLeft: "6px" } }, c.future.verdictLabel))
+            ); })
+          ),
+          // Steady
+          e("div", { className: "ranking-col" },
+            e("div", { style: { fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "1.5px", color: "#3b82f6", marginBottom: "10px", display: "flex", alignItems: "center", gap: "6px" } }, e("span",{style:{fontSize:"14px"}},"\u25A0"), " Steady — Evolve or Stagnate"),
+            COMPONENTS.filter(function(c){return c.future.verdict==="stable";}).sort(function(a,b){return a.future.rank-b.future.rank;}).map(function(c){ return e("div", { key: c.id, className: "ranking-item", style: { background: "#eff6ff", border: "1px solid #bfdbfe" } },
+              e("span", { className: "mono", style: { fontWeight: 700, fontSize: "16px", color: "#3b82f6", width: "24px" } }, "#"+c.future.rank),
+              e("span", { style: { fontSize: "16px" } }, c.icon),
+              e("div", null, e("span", { className: "mono", style: { fontWeight: 700, fontSize: "13px", color: "#1e3a8a" } }, c.label), e("span", { style: { fontSize: "11px", color: "#2563eb", marginLeft: "6px" } }, c.future.verdictLabel))
+            ); })
+          ),
+          // At Risk
+          e("div", { className: "ranking-col" },
+            e("div", { style: { fontSize: "10px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "1.5px", color: "#ef4444", marginBottom: "10px", display: "flex", alignItems: "center", gap: "6px" } }, e("span",{style:{fontSize:"14px"}},"\u25BC"), " At Risk — Disrupted by Agents"),
+            COMPONENTS.filter(function(c){return c.future.verdict==="loser";}).sort(function(a,b){return a.future.rank-b.future.rank;}).map(function(c){ return e("div", { key: c.id, className: "ranking-item", style: { background: "#fef2f2", border: "1px solid #fecaca" } },
+              e("span", { className: "mono", style: { fontWeight: 700, fontSize: "16px", color: "#ef4444", width: "24px" } }, "#"+c.future.rank),
+              e("span", { style: { fontSize: "16px" } }, c.icon),
+              e("div", null, e("span", { className: "mono", style: { fontWeight: 700, fontSize: "13px", color: "#7f1d1d" } }, c.label), e("span", { style: { fontSize: "11px", color: "#dc2626", marginLeft: "6px" } }, c.future.verdictLabel))
+            ); })
+          )
+        )
+      )
+    ),
+
+    // Component Deep Dives
+    e("div", { className: "container", style: { paddingBottom: "40px" } },
+      e("div", { className: "text-center mono", style: { fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "2px", color: "#6366f1", marginBottom: "14px" } },
+        view === "today" ? "Stack Components — Tap to explore" : "Ranked by Agentic Importance — Tap to explore"
+      ),
+      e("div", { style: { display: "flex", flexDirection: "column", gap: "8px" } },
+        sorted.map(function(comp) {
+          return e(ComponentCard, { key: comp.id, comp: comp, expanded: expanded, view: view, onToggle: function(){ setExpanded(expanded === comp.id ? null : comp.id); } });
+        })
+      )
+    ),
+
+    // Stats
+    e("div", { className: "container mb-32", style: { paddingTop: "24px" } },
+      e("div", { style: { background: view === "today" ? "linear-gradient(135deg, #1e1b4b, #312e81)" : "linear-gradient(135deg, #0f172a, #1e293b)", borderRadius: "20px", padding: "24px", border: "1px solid #4338ca" } },
+        e("div", { className: "text-center", style: { fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "2px", color: "#a5b4fc", marginBottom: "16px" } },
+          view === "today" ? "Market Context" : "The Agentic Commerce Horizon"
+        ),
+        e("div", { className: "grid-stats" },
+          view === "today" ? e(React.Fragment, null,
+            e("div",{className:"text-center"},e("div",{className:"stat-val mono",style:{color:"#7c3aed"}},"$59B"),e("div",{className:"stat-label"},"PIM Market by 2034")),
+            e("div",{className:"text-center"},e("div",{className:"stat-val mono",style:{color:"#2563eb"}},"Composable"),e("div",{className:"stat-label"},"Architecture Trend")),
+            e("div",{className:"text-center"},e("div",{className:"stat-val mono",style:{color:"#059669"}},"API-First"),e("div",{className:"stat-label"},"Integration Pattern")),
+            e("div",{className:"text-center"},e("div",{className:"stat-val mono",style:{color:"#dc2626"}},"Data Silos"),e("div",{className:"stat-label"},"Key Challenge"))
+          ) : e(React.Fragment, null,
+            e("div",{className:"text-center"},e("div",{className:"stat-val mono",style:{color:"#6366f1"}},"$3\u20135T"),e("div",{className:"stat-label"},"Agentic Commerce by 2030")),
+            e("div",{className:"text-center"},e("div",{className:"stat-val mono",style:{color:"#06b6d4"}},"97M+"),e("div",{className:"stat-label"},"MCP SDK Downloads")),
+            e("div",{className:"text-center"},e("div",{className:"stat-val mono",style:{color:"#10b981"}},"1,200%"),e("div",{className:"stat-label"},"AI Traffic Growth (Retail)")),
+            e("div",{className:"text-center"},e("div",{className:"stat-val mono",style:{color:"#f59e0b"}},"+31%"),e("div",{className:"stat-label"},"AI Conversion Lift"))
+          )
+        )
+      )
+    ),
+
+    // Summary
+    e("div", { className: "container", style: { paddingBottom: "48px" } },
+      e("div", { style: { background: "#fff", borderRadius: "20px", padding: "24px", border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" } },
+        e("div", { className: "mono", style: { fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "2px", color: "#6366f1", marginBottom: "12px" } },
+          view === "today" ? "The Bottom Line — Today" : "The Bottom Line — What's Coming"
+        ),
+        view === "today"
+          ? e("div", { style: { fontSize: "14px", lineHeight: 1.7, color: "#334155" } },
+              "Today\u2019s e-commerce stack is modular and API-first \u2014 a major improvement over monolithic platforms. But it\u2019s still fundamentally ",
+              e("strong",null,"human-orchestrated"),
+              ". Data flows between systems via APIs and webhooks, but a person decides what to enrich, when to promote, how to route orders, and what content to publish. The stack is powerful but passive \u2014 it waits for instructions.",
+              e("br"), e("br"),
+              "The architecture follows a layered model: ",
+              e("strong",null,"ERP"), " and ", e("strong",null,"PIM"), " form the data foundation, the ",
+              e("strong",null,"Commerce Engine"), " and ", e("strong",null,"CMS"), " power the customer experience, and ",
+              e("strong",null,"OMS"), ", ", e("strong",null,"Promotions"), ", and ", e("strong",null,"Payments"), " handle transaction logic. Each component connects via REST/GraphQL APIs, but integration is often fragile and requires ongoing maintenance."
+            )
+          : e("div", { style: { fontSize: "14px", lineHeight: 1.7, color: "#334155" } },
+              "The agentic future is no longer theoretical \u2014 it\u2019s live. In March 2026, Shopify flipped the switch: ",
+              e("strong",null,"millions of merchants"),
+              " can now sell inside ChatGPT, Copilot, Google AI Mode, and Gemini. But look closely at what Shopify actually built: a ",
+              e("strong",null,"catalog syndication layer + payment orchestrator + fulfillment coordinator"),
+              " \u2014 not a traditional storefront. They\u2019re escaping the commerce engine, not defending it.",
+              e("br"), e("br"),
+              "The winners are clear: ", e("strong",null,"PIM"), " (structured product data is the #1 competitive moat), ",
+              e("strong",null,"OMS"), " (delivery becomes the agent\u2019s tiebreaker), and ",
+              e("strong",null,"Payments"), " (the trust layer for all agent transactions). The most disrupted: ",
+              e("strong",null,"Commerce Engines"), " (unbundled by PIM + OMS + Payments + protocols), ",
+              e("strong",null,"Search"), " (agents reason, they don\u2019t search), ",
+              e("strong",null,"CMS"), " (agents consume data, not pages), and ",
+              e("strong",null,"CRM"), " (agents become the relationship layer). The new stack isn\u2019t layered \u2014 it\u2019s a ",
+              e("strong",null,"protocol-native mesh"), " where every component is directly agent-addressable."
+            )
+      )
+    )
+  );
+}
+
+ReactDOM.render(e(App), document.getElementById("app"));
+</script>
+</body>
+</html>
